@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spice Garden Restaurant</title>
+<meta name="description" content="Delicious food. Order online on WhatsApp.">
+<style>
+:root{--g:#d97706;--g2:#f59e0b;--bg:#faf7f2;--card:#fff;--text:#222;--muted:#777;--dark:#1c1410;--line:#eadfce}
+@media(prefers-color-scheme:dark){:root{--bg:#15100c;--card:#241b14;--text:#f5ede3;--muted:#b3a595;--line:#3a2e22}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding-bottom:80px}
+.wrap{max-width:1000px;margin:auto;padding:0 18px}
+header{position:sticky;top:0;z-index:20;background:var(--dark);color:#fff}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.logo{font-weight:800;font-size:20px;color:var(--g2)}
+nav a{color:#fff;text-decoration:none;margin-left:14px;font-size:14px}
+.hero{background:linear-gradient(rgba(28,20,16,.78),rgba(28,20,16,.88)),linear-gradient(135deg,#b45309,#7c2d12);color:#fff;text-align:center;padding:84px 18px}
+.hero small{letter-spacing:3px;color:var(--g2);font-weight:700}
+.hero h1{font-size:clamp(32px,7vw,54px);line-height:1.15;margin:10px 0}
+.hero p{max-width:520px;margin:0 auto 26px;opacity:.92}
+.btn{display:inline-block;padding:13px 26px;border-radius:50px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:16px}
+.b-g{background:var(--g);color:#fff}.b-o{border:2px solid #fff;color:#fff;margin-left:8px}
+.stats{display:flex;justify-content:center;gap:34px;flex-wrap:wrap;margin-top:34px;font-size:13px;opacity:.9}
+.stats b{display:block;font-size:22px;color:var(--g2)}
+section{padding:50px 0}
+h2{text-align:center;font-size:30px;margin-bottom:6px}
+.sub{text-align:center;color:var(--muted);margin-bottom:24px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:18px;justify-content:center;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:30px;border:1.5px solid var(--g);background:none;color:var(--g);font-weight:600;cursor:pointer}
+.tab.on{background:var(--g);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center}
+.item .e{font-size:44px;flex:none}
+.item .t{flex:1}.item h3{font-size:16px}.item p{font-size:12.5px;color:var(--muted)}
+.price{color:var(--g);font-weight:800;margin-top:4px}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:30px;height:30px;border-radius:50%;border:0;background:var(--g);color:#fff;font-size:18px;cursor:pointer}
+.add{padding:8px 16px;border-radius:20px;border:0;background:var(--g);color:#fff;font-weight:700;cursor:pointer}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;text-align:center}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.why span{font-size:34px}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;text-align:center}
+.info div{background:var(--card);border:1px solid var(--line);padding:18px;border-radius:14px}
+iframe{width:100%;height:300px;border:0;border-radius:16px;margin-top:18px}
+footer{background:var(--dark);color:#bba;text-align:center;padding:22px 10px;font-size:13px}
+#bar{position:fixed;left:0;right:0;bottom:0;background:var(--dark);color:#fff;padding:12px 18px;display:none;justify-content:space-between;align-items:center;z-index:30}
+#bar button{background:#25d366;color:#fff;border:0;padding:11px 22px;border-radius:30px;font-weight:700;font-size:15px;cursor:pointer}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:40}
+#modal .box{background:var(--card);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:20px;max-height:88vh;overflow:auto}
+.box h3{margin-bottom:10px}
+.line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}
+.box input,.box textarea{width:100%;padding:11px;margin-top:8px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:var(--bg);color:var(--text);font-family:inherit}
+.total{display:flex;justify-content:space-between;font-weight:800;font-size:17px;margin:12px 0}
+.send{width:100%;background:#25d366;color:#fff;border:0;padding:14px;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer}
+.close{width:100%;background:none;border:0;color:var(--muted);padding:10px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <div class="logo" id="logo"></div>
+  <nav><a href="#menu">Menu</a><a href="#contact">Contact</a></nav>
+</div></header>
+
+<div class="hero">
+  <small>WELCOME</small>
+  <h1 id="tagline"></h1>
+  <p id="sub"></p>
+  <a class="btn b-g" href="#menu">Order Now</a>
+  <a class="btn b-o" id="callBtn">Call Us</a>
+  <div class="stats" id="stats"></div>
+</div>
+
+<section id="menu"><div class="wrap">
+  <h2>Our Menu</h2><p class="sub">Item select koro, tarpor WhatsApp e order pathao</p>
+  <div class="tabs" id="tabs"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section style="background:rgba(217,119,6,.07)"><div class="wrap">
+  <h2>Keno Amader?</h2><p class="sub">&nbsp;</p>
+  <div class="why" id="why"></div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <h2>Contact &amp; Location</h2><p class="sub">&nbsp;</p>
+  <div class="info">
+    <div><b>📍 Address</b><br><span id="addr"></span></div>
+    <div><b>🕒 Open</b><br><span id="hours"></span></div>
+    <div><b>📞 Phone</b><br><span id="ph"></span></div>
+  </div>
+  <iframe id="map" loading="lazy"></iframe>
+</div></section>
+
+<footer id="foot"></footer>
+
+<div id="bar"><span id="barTxt"></span><button onclick="openCart()">Order Dekho</button></div>
+
+<div id="modal"><div class="box">
+  <h3>🛒 Apnar Order</h3>
+  <div id="lines"></div>
+  <div class="total"><span>Total</span><span id="tot"></span></div>
+  <input id="cn" placeholder="Apnar naam">
+  <input id="cp" placeholder="Phone number" inputmode="tel">
+  <textarea id="ca" rows="2" placeholder="Delivery address"></textarea>
+  <div style="height:12px"></div>
+  <button class="send" onclick="sendOrder()">WhatsApp e Order Pathao</button>
+  <button class="close" onclick="closeCart()">Bondho koro</button>
+</div></div>
+
+<script>
+/* ====== SHUDHU ETA BODLAO ====== */
+const C = {
+  name: "Spice Garden",
+  tagline: "Ghorer Moto Shaad, Restaurant er Moto Jotno",
+  sub: "Fresh ingredients, authentic taste. Dine-in, takeaway r home delivery available.",
+  phone: "01700000000",
+  whatsapp: "8801700000000",    // 880 + number (0 chara)
+  address: "Main Road, Your Area, City",
+  hours: "Roj 11:00 AM - 11:00 PM",
+  mapQuery: "Spice Garden Restaurant, Your Area, City",
+  currency: "৳",
+  stats: [["500+","Happy Customers"],["30+","Menu Items"],["4.5★","Rating"]],
+  why: [["🥘","Fresh Food","Roj tajaa ingredients"],["🚴","Fast Delivery","Shokol area te delivery"],["💰","Fair Price","Bhalo maan, thik dam"]],
+  menu: {
+    "Biryani & Rice": [
+      {e:"🍛", n:"Kacchi Biryani", d:"Mutton, aromatic basmati", p:380},
+      {e:"🍚", n:"Chicken Biryani", d:"Spicy chicken with rice", p:250},
+      {e:"🍲", n:"Beef Tehari", d:"Traditional Dhaka style", p:230}
+    ],
+    "Fast Food": [
+      {e:"🍔", n:"Beef Burger", d:"Juicy patty, cheese, sauce", p:220},
+      {e:"🍕", n:"Chicken Pizza (8\")", d:"Chicken, capsicum, cheese", p:450},
+      {e:"🍟", n:"French Fries", d:"Crispy golden", p:120}
+    ],
+    "Chinese": [
+      {e:"🍜", n:"Chicken Chowmein", d:"Stir fried noodles", p:200},
+      {e:"🥡", n:"Fried Rice", d:"Egg & chicken", p:220}
+    ],
+    "Drinks": [
+      {e:"🥤", n:"Cold Drinks", d:"Coke / Sprite", p:50},
+      {e:"🥭", n:"Mango Lassi", d:"Fresh & creamy", p:110}
+    ]
+  }
+};
+/* ================================= */
+
+const $=id=>document.getElementById(id), cart={};
+const money=n=>C.currency+n;
+const wa=t=>`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(t)}`;
+document.title=C.name+" Restaurant";
+$("logo").textContent=C.name;
+$("tagline").textContent=C.tagline; $("sub").textContent=C.sub;
+$("callBtn").href="tel:"+C.phone;
+$("addr").textContent=C.address; $("hours").textContent=C.hours; $("ph").textContent=C.phone;
+$("map").src="https://www.google.com/maps?q="+encodeURIComponent(C.mapQuery)+"&output=embed";
+$("foot").textContent="© "+new Date().getFullYear()+" "+C.name+". All rights reserved.";
+$("stats").innerHTML=C.stats.map(s=>`<div><b>${s[0]}</b>${s[1]}</div>`).join("");
+$("why").innerHTML=C.why.map(w=>`<div><span>${w[0]}</span><h3>${w[1]}</h3><p style="color:var(--muted);font-size:13px">${w[2]}</p></div>`).join("");
+
+const cats=Object.keys(C.menu); let cur=cats[0];
+const all={}; cats.forEach(c=>C.menu[c].forEach(i=>all[i.n]=i));
+
+function ctrl(n){
+  const q=cart[n]||0;
+  return q?`<div class="qty"><button onclick="chg('${n.replace(/'/g,"\\'")}',-1)">−</button><b>${q}</b><button onclick="chg('${n.replace(/'/g,"\\'")}',1)">+</button></div>`
+          :`<button class="add" onclick="chg('${n.replace(/'/g,"\\'")}',1)">Add</button>`;
+}
+function render(){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.textContent===cur));
+  $("grid").innerHTML=C.menu[cur].map(i=>`<div class="item"><div class="e">${i.e}</div><div class="t"><h3>${i.n}</h3><p>${i.d}</p><div class="price">${money(i.p)}</div></div>${ctrl(i.n)}</div>`).join("");
+  const cnt=Object.values(cart).reduce((a,b)=>a+b,0);
+  const sum=Object.keys(cart).reduce((a,n)=>a+cart[n]*all[n].p,0);
+  $("bar").style.display=cnt?"flex":"none";
+  $("barTxt").textContent=`${cnt} item • ${money(sum)}`;
+}
+function chg(n,d){cart[n]=(cart[n]||0)+d;if(cart[n]<=0)delete cart[n];render();if($("modal").style.display==="flex")openCart();}
+$("tabs").innerHTML=cats.map(c=>`<button class="tab">${c}</button>`).join("");
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{cur=t.textContent;render()});
+
+function openCart(){
+  const names=Object.keys(cart);
+  if(!names.length){closeCart();return}
+  $("lines").innerHTML=names.map(n=>`<div class="line"><span>${n} × ${cart[n]}</span><span>${money(all[n].p*cart[n])}</span></div>`).join("");
+  $("tot").textContent=money(names.reduce((a,n)=>a+cart[n]*all[n].p,0));
+  $("modal").style.display="flex";
+}
+function closeCart(){$("modal").style.display="none"}
+function sendOrder(){
+  const names=Object.keys(cart);
+  if(!$("cn").value.trim()||!$("cp").value.trim()){alert("Naam r phone number dao");return}
+  let t=`*Notun Order - ${C.name}*\n\n`;
+  names.forEach(n=>t+=`• ${n} × ${cart[n]} = ${money(all[n].p*cart[n])}\n`);
+  t+=`\n*Total: ${$("tot").textContent}*\n\nNaam: ${$("cn").value}\nPhone: ${$("cp").value}\nAddress: ${$("ca").value||"Takeaway/Dine-in"}`;
+  window.open(wa(t),"_blank");
+}
+$("modal").onclick=e=>{if(e.target.id==="modal")closeCart()};
+render();
+</script>
+</body>
+</html>
